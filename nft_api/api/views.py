@@ -1,16 +1,11 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from .serializers import ContractSerializer, CollectionSerializer
-from .models import Contract, Collection 
-from web3 import Web3 
+from .serializers import ContractSerializer
+from .models import Contract 
 from rest_framework.response import Response
 import requests
 from django.shortcuts import get_object_or_404
-import urllib
-
-infura_url = 'https://mainnet.infura.io/v3/4113c5a1275a4c1093487f9d7f74edd3'
-w3 = Web3(Web3.HTTPProvider(infura_url))
 
 class ContractViewSet(viewsets.ModelViewSet):
     """
@@ -52,20 +47,4 @@ class ContractViewSet(viewsets.ModelViewSet):
         contract = get_object_or_404(Contract, pk=pk)
         url = f"https://api.opensea.io/api/v1/asset_contract/{contract.address}"
         response = requests.get(url).json()
-        return Response(response)
-
-class CollectionViewSet(viewsets.ModelViewSet):
-    """
-    A simple ViewSet for viewing and editing the accounts
-    associated with the user.
-    """
-    serializer_class = CollectionSerializer
-    queryset = Collection.objects.all()
-
-    @action(detail=True)
-    def opensea_data(self, request, pk=None):
-        collection = get_object_or_404(Collection, pk=pk)
-        url = "https://api.opensea.io/api/v1/collections"
-        querystring = {"offset":"0","limit":"300", "asset_owner": collection.address}
-        response = requests.get(url, params=querystring).json()
         return Response(response)

@@ -20,7 +20,6 @@ from api import views
 
 router = routers.SimpleRouter()
 router.register(r'contracts', views.ContractViewSet)
-router.register(r'collections', views.CollectionViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
