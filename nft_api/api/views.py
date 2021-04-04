@@ -8,10 +8,6 @@ import requests
 from django.shortcuts import get_object_or_404
 
 class ContractViewSet(viewsets.ModelViewSet):
-    """
-    A simple ViewSet for viewing and editing the accounts
-    associated with the user.
-    """
     serializer_class = ContractSerializer
     queryset = Contract.objects.all()
 
